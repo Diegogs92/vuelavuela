@@ -24,9 +24,10 @@ export async function GET(
       );
     }
 
-    const quote = { id: doc.id, ...doc.data() };
+    const quoteData = doc.data() as any;
+    const quote = { id: doc.id, ...quoteData };
 
-    if (quote.userId !== session.user.id) {
+    if (quoteData.userId !== session.user.id) {
       return NextResponse.json({ error: 'No autorizado' }, { status: 403 });
     }
 
