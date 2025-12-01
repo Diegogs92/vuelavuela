@@ -5,7 +5,7 @@ import { adminDb } from '@/lib/firebase-admin';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -14,7 +14,8 @@ export async function GET(
       return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
     }
 
-    const doc = await adminDb.collection('travelRequests').doc(params.id).get();
+    const { id } = await params;
+    const doc = await adminDb.collection('travelRequests').doc(id).get();
 
     if (!doc.exists) {
       return NextResponse.json(

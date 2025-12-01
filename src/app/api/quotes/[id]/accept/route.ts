@@ -8,7 +8,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -17,7 +17,8 @@ export async function POST(
       return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
     }
 
-    const quoteDoc = await adminDb.collection('quotes').doc(params.id).get();
+    const { id } = await params;
+    const quoteDoc = await adminDb.collection('quotes').doc(id).get();
 
     if (!quoteDoc.exists) {
       return NextResponse.json(
@@ -39,7 +40,7 @@ export async function POST(
       );
     }
 
-    await adminDb.collection('quotes').doc(params.id).update({
+    await adminDb.collection('quotes').doc(id).update({
       status: 'accepted',
       updatedAt: new Date().toISOString(),
     });
@@ -49,7 +50,7 @@ export async function POST(
       updatedAt: new Date().toISOString(),
     });
 
-    await sendAcceptanceEmailToAgent(params.id, quote, session.user);
+    await sendAcceptanceEmailToAgent(id, quote, session.user);
 
     return NextResponse.json({ message: 'Oferta aceptada exitosamente' });
   } catch (error) {
