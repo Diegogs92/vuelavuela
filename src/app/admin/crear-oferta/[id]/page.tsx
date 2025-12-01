@@ -2,7 +2,7 @@
 
 import { useSession } from 'next-auth/react';
 import { useRouter, useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 export default function CrearOferta() {
   const { data: session, status } = useSession();
@@ -21,15 +21,7 @@ export default function CrearOferta() {
     validUntil: '',
   });
 
-  useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.push('/auth/signin');
-    } else if (status === 'authenticated') {
-      fetchRequest();
-    }
-  }, [status, router, requestId]);
-
-  const fetchRequest = async () => {
+  const fetchRequest = useCallback(async () => {
     try {
       const response = await fetch(`/api/admin/travel-requests/${requestId}`);
       if (response.ok) {
@@ -38,15 +30,23 @@ export default function CrearOferta() {
 
         const defaultValidUntil = new Date();
         defaultValidUntil.setDate(defaultValidUntil.getDate() + 7);
-        setQuote({
-          ...quote,
+        setQuote((prev) => ({
+          ...prev,
           validUntil: defaultValidUntil.toISOString().split('T')[0],
-        });
+        }));
       }
     } catch (error) {
       console.error('Error al cargar solicitud:', error);
     }
-  };
+  }, [requestId]);
+
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/auth/signin');
+    } else if (status === 'authenticated') {
+      fetchRequest();
+    }
+  }, [status, router, requestId, fetchRequest]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

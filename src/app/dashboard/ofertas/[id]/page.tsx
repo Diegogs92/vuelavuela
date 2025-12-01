@@ -2,7 +2,7 @@
 
 import { useSession } from 'next-auth/react';
 import { useRouter, useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 export default function VerOferta() {
   const { data: session, status } = useSession();
@@ -13,15 +13,7 @@ export default function VerOferta() {
   const [loading, setLoading] = useState(false);
   const [quote, setQuote] = useState<any>(null);
 
-  useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.push('/auth/signin');
-    } else if (status === 'authenticated') {
-      fetchQuote();
-    }
-  }, [status, router, quoteId]);
-
-  const fetchQuote = async () => {
+  const fetchQuote = useCallback(async () => {
     try {
       const response = await fetch(`/api/quotes/${quoteId}`);
       if (response.ok) {
@@ -31,7 +23,15 @@ export default function VerOferta() {
     } catch (error) {
       console.error('Error al cargar oferta:', error);
     }
-  };
+  }, [quoteId]);
+
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/auth/signin');
+    } else if (status === 'authenticated') {
+      fetchQuote();
+    }
+  }, [status, router, quoteId, fetchQuote]);
 
   const handleAccept = async () => {
     if (!confirm('¿Estás seguro de que deseas aceptar esta oferta?')) {
