@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
 
     const requests = snapshot.docs.map((doc) => ({
       id: doc.id,
-      ...doc.data(),
+      ...(doc.data() as any),
     }));
 
     return NextResponse.json(requests);

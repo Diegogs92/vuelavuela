@@ -27,7 +27,7 @@ export async function POST(
       );
     }
 
-    const quote = quoteDoc.data();
+    const quote = quoteDoc.data() as any;
 
     if (quote?.userId !== session.user.id) {
       return NextResponse.json({ error: 'No autorizado' }, { status: 403 });

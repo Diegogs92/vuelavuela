@@ -24,7 +24,7 @@ export async function GET(
       );
     }
 
-    return NextResponse.json({ id: doc.id, ...doc.data() });
+    return NextResponse.json({ id: doc.id, ...(doc.data() as any) });
   } catch (error) {
     console.error('Error al obtener solicitud:', error);
     return NextResponse.json(
