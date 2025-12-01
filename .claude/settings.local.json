@@ -9,7 +9,8 @@
       "Bash(git add:*)",
       "Bash(git commit -m \"$(cat <<''EOF''\nInitial commit: Vuela Vuela - Travel Agency Web App\n\n✨ Features:\n- Google OAuth authentication with NextAuth.js\n- Multi-step travel request form\n- Admin panel for travel agent\n- Quote creation and management system\n- Email notifications with Resend\n- Firebase Firestore database\n- Responsive design with Tailwind CSS\n\n🛠️ Tech Stack:\n- Next.js 15 (App Router)\n- TypeScript\n- Firebase\n- NextAuth.js\n- Resend\n- Tailwind CSS\n\n🤖 Generated with Claude Code\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
       "Bash(git commit:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(git push:*)"
     ],
     "deny": [],
     "ask": []
