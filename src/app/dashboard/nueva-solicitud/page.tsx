@@ -38,10 +38,14 @@ export default function NuevaSolicitud() {
     }
   }, [status, router]);
 
+  const [error, setError] = useState('');
+
   if (status === 'loading') {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <main className="flex min-h-screen flex-col items-center justify-center bg-animated">
+        <div className="glass-card animate-pulse">
+          <div className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+        </div>
       </main>
     );
   }
