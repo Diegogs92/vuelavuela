@@ -42,9 +42,9 @@ export default function NuevaSolicitud() {
 
   if (status === 'loading') {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center bg-animated">
-        <div className="glass-card animate-pulse">
-          <div className="w-16 h-16 border-4 border-[#49A078] border-t-transparent rounded-full animate-spin"></div>
+      <main className="flex min-h-screen flex-col items-center justify-center bg-background">
+        <div className="animate-pulse">
+          <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
         </div>
       </main>
     );
@@ -142,16 +142,16 @@ export default function NuevaSolicitud() {
   ];
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800">
-      <nav className="bg-white dark:bg-gray-800 shadow-sm">
+    <main className="min-h-screen bg-background">
+      <nav className="bg-card border-b border-border shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <h1 className="text-2xl font-black text-foreground">
               Vuela Vuela
             </h1>
             <button
               onClick={() => router.push('/dashboard')}
-              className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               Volver al dashboard
             </button>
@@ -160,8 +160,8 @@ export default function NuevaSolicitud() {
       </nav>
 
       <div className="max-w-3xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
+        <div className="bg-card border border-border rounded-xl shadow-lg p-8">
+          <h2 className="text-3xl font-bold text-foreground mb-6">
             Nueva solicitud de viaje
           </h2>
 
@@ -173,25 +173,25 @@ export default function NuevaSolicitud() {
                   className={`flex items-center ${s < 4 ? 'flex-1' : ''}`}
                 >
                   <div
-                    className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${
+                    className={`w-10 h-10 rounded-full flex items-center justify-center font-bold transition-colors ${
                       step >= s
-                        ? 'bg-blue-600 text-white'
-                        : 'bg-gray-300 text-gray-600'
+                        ? 'bg-primary text-primary-foreground'
+                        : 'bg-muted text-muted-foreground'
                     }`}
                   >
                     {s}
                   </div>
                   {s < 4 && (
                     <div
-                      className={`h-1 flex-1 mx-2 ${
-                        step > s ? 'bg-blue-600' : 'bg-gray-300'
+                      className={`h-1 flex-1 mx-2 transition-colors ${
+                        step > s ? 'bg-primary' : 'bg-border'
                       }`}
                     />
                   )}
                 </div>
               ))}
             </div>
-            <div className="grid grid-cols-4 gap-2 text-xs text-center text-gray-600 dark:text-gray-400">
+            <div className="grid grid-cols-4 gap-2 text-xs text-center text-muted-foreground">
               <div>Fechas</div>
               <div>Pasajeros</div>
               <div>Destinos</div>
@@ -202,13 +202,13 @@ export default function NuevaSolicitud() {
           <form onSubmit={handleSubmit}>
             {step === 1 && (
               <div className="space-y-6">
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                <h3 className="text-xl font-semibold text-foreground">
                   ¿Cuándo quieres viajar?
                 </h3>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-foreground mb-2">
                       Fecha de inicio
                     </label>
                     <input
@@ -223,12 +223,12 @@ export default function NuevaSolicitud() {
                           },
                         })
                       }
-                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                      className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                       required
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-foreground mb-2">
                       Fecha de fin
                     </label>
                     <input
@@ -243,7 +243,7 @@ export default function NuevaSolicitud() {
                           },
                         })
                       }
-                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                      className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                       required
                     />
                   </div>
@@ -263,18 +263,18 @@ export default function NuevaSolicitud() {
                         },
                       })
                     }
-                    className="w-4 h-4 text-blue-600 rounded"
+                    className="w-4 h-4 text-primary rounded border-border focus:ring-ring"
                   />
                   <label
                     htmlFor="flexible"
-                    className="ml-2 text-sm text-gray-700 dark:text-gray-300"
+                    className="ml-2 text-sm text-foreground"
                   >
                     Fechas flexibles
                   </label>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-foreground mb-2">
                     Días disponibles
                   </label>
                   <input
@@ -287,7 +287,7 @@ export default function NuevaSolicitud() {
                         daysAvailable: parseInt(e.target.value),
                       })
                     }
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                     required
                   />
                 </div>
@@ -296,12 +296,12 @@ export default function NuevaSolicitud() {
 
             {step === 2 && (
               <div className="space-y-6">
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                <h3 className="text-xl font-semibold text-foreground">
                   ¿Cuántas personas van a viajar?
                 </h3>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-foreground mb-2">
                     Adultos
                   </label>
                   <input
@@ -317,13 +317,13 @@ export default function NuevaSolicitud() {
                         },
                       })
                     }
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-foreground mb-2">
                     Niños (2-12 años)
                   </label>
                   <input
@@ -339,12 +339,12 @@ export default function NuevaSolicitud() {
                         },
                       })
                     }
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-foreground mb-2">
                     Bebés (0-2 años)
                   </label>
                   <input
@@ -360,7 +360,7 @@ export default function NuevaSolicitud() {
                         },
                       })
                     }
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                   />
                 </div>
               </div>
@@ -368,12 +368,12 @@ export default function NuevaSolicitud() {
 
             {step === 3 && (
               <div className="space-y-6">
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                <h3 className="text-xl font-semibold text-foreground">
                   ¿A dónde te gustaría ir?
                 </h3>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-foreground mb-2">
                     Destinos deseados
                   </label>
                   <div className="flex gap-2">
@@ -388,12 +388,12 @@ export default function NuevaSolicitud() {
                         }
                       }}
                       placeholder="Ej: París, Francia"
-                      className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                      className="flex-1 px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                     />
                     <button
                       type="button"
                       onClick={handleAddDestination}
-                      className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
+                      className="px-6 py-2 bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg transition-colors shadow-md"
                     >
                       Agregar
                     </button>
@@ -402,13 +402,13 @@ export default function NuevaSolicitud() {
                     {preferences.destinations.map((dest, index) => (
                       <span
                         key={index}
-                        className="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm"
+                        className="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 text-primary border border-primary/20 rounded-full text-sm"
                       >
                         {dest}
                         <button
                           type="button"
                           onClick={() => handleRemoveDestination(index)}
-                          className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200"
+                          className="text-primary hover:text-primary/80 transition-colors"
                         >
                           ×
                         </button>
@@ -416,7 +416,7 @@ export default function NuevaSolicitud() {
                     ))}
                   </div>
                   {preferences.destinations.length === 0 && (
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                    <p className="text-sm text-muted-foreground mt-2">
                       Agrega al menos un destino
                     </p>
                   )}
@@ -426,12 +426,12 @@ export default function NuevaSolicitud() {
 
             {step === 4 && (
               <div className="space-y-6">
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                <h3 className="text-xl font-semibold text-foreground">
                   Preferencias de alojamiento y actividades
                 </h3>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-foreground mb-2">
                     Tipo de alojamiento
                   </label>
                   <div className="grid grid-cols-2 gap-3">
@@ -442,8 +442,8 @@ export default function NuevaSolicitud() {
                         onClick={() => handleAccommodationToggle(type)}
                         className={`px-4 py-3 rounded-lg border-2 transition-colors ${
                           preferences.accommodationType.includes(type)
-                            ? 'border-blue-600 bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-200'
-                            : 'border-gray-300 dark:border-gray-600 hover:border-blue-400'
+                            ? 'border-primary bg-primary/10 text-primary'
+                            : 'border-border bg-background hover:border-primary/50'
                         }`}
                       >
                         {type}
@@ -453,7 +453,7 @@ export default function NuevaSolicitud() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-foreground mb-2">
                     Actividades de interés
                   </label>
                   <div className="flex gap-2">
@@ -468,12 +468,12 @@ export default function NuevaSolicitud() {
                         }
                       }}
                       placeholder="Ej: Buceo, Museos, Senderismo"
-                      className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                      className="flex-1 px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                     />
                     <button
                       type="button"
                       onClick={handleAddActivity}
-                      className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
+                      className="px-6 py-2 bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg transition-colors shadow-md"
                     >
                       Agregar
                     </button>
@@ -482,13 +482,13 @@ export default function NuevaSolicitud() {
                     {preferences.activities.map((activity, index) => (
                       <span
                         key={index}
-                        className="inline-flex items-center gap-2 px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm"
+                        className="inline-flex items-center gap-2 px-3 py-1 bg-secondary/10 text-secondary border border-secondary/20 rounded-full text-sm"
                       >
                         {activity}
                         <button
                           type="button"
                           onClick={() => handleRemoveActivity(index)}
-                          className="text-purple-600 dark:text-purple-400 hover:text-purple-800 dark:hover:text-purple-200"
+                          className="text-secondary hover:text-secondary/80 transition-colors"
                         >
                           ×
                         </button>
@@ -498,7 +498,7 @@ export default function NuevaSolicitud() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-foreground mb-2">
                     Otras preferencias
                   </label>
                   <textarea
@@ -511,7 +511,7 @@ export default function NuevaSolicitud() {
                     }
                     rows={4}
                     placeholder="Cuéntanos cualquier otra preferencia, necesidad especial o información que debamos tener en cuenta..."
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                   />
                 </div>
               </div>
@@ -522,7 +522,7 @@ export default function NuevaSolicitud() {
                 <button
                   type="button"
                   onClick={() => setStep(step - 1)}
-                  className="px-6 py-3 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:border-gray-400 dark:hover:border-gray-500"
+                  className="px-6 py-3 border-2 border-border text-foreground rounded-lg hover:bg-muted transition-colors"
                 >
                   Anterior
                 </button>
@@ -535,7 +535,7 @@ export default function NuevaSolicitud() {
                   disabled={
                     (step === 3 && preferences.destinations.length === 0)
                   }
-                  className="ml-auto px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white rounded-lg"
+                  className="ml-auto px-6 py-3 bg-primary hover:bg-primary/90 disabled:bg-muted disabled:text-muted-foreground text-primary-foreground rounded-lg transition-colors shadow-md"
                 >
                   Siguiente
                 </button>
@@ -543,7 +543,7 @@ export default function NuevaSolicitud() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="ml-auto px-8 py-3 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white font-bold rounded-lg"
+                  className="ml-auto px-8 py-3 bg-secondary hover:bg-secondary/90 disabled:bg-muted disabled:text-muted-foreground text-secondary-foreground font-bold rounded-lg transition-colors shadow-md"
                 >
                   {loading ? 'Enviando...' : 'Enviar solicitud'}
                 </button>
