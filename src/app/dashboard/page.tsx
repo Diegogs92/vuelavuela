@@ -53,7 +53,7 @@ function DashboardContent() {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center bg-animated">
         <div className="glass-card animate-pulse">
-          <div className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+          <div className="w-16 h-16 border-4 border-[#49A078] border-t-transparent rounded-full animate-spin"></div>
         </div>
       </main>
     );
@@ -65,10 +65,10 @@ function DashboardContent() {
 
   const getStatusBadge = (status: string) => {
     const styles = {
-      pending: 'bg-gradient-to-r from-yellow-500/20 to-orange-500/20 text-yellow-200 border border-yellow-500/30',
-      quoted: 'bg-gradient-to-r from-blue-500/20 to-cyan-500/20 text-blue-200 border border-blue-500/30',
-      accepted: 'bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-green-200 border border-green-500/30',
-      rejected: 'bg-gradient-to-r from-red-500/20 to-pink-500/20 text-red-200 border border-red-500/30',
+      pending: 'bg-gradient-to-r from-[#9CC5A1]/30 to-[#DCE1DE]/30 text-[#DCE1DE] border border-[#9CC5A1]/40',
+      quoted: 'bg-gradient-to-r from-[#216869]/30 to-[#49A078]/30 text-[#9CC5A1] border border-[#216869]/40',
+      accepted: 'bg-gradient-to-r from-[#49A078]/30 to-[#9CC5A1]/30 text-[#DCE1DE] border border-[#49A078]/40',
+      rejected: 'bg-gradient-to-r from-red-900/30 to-red-800/30 text-red-200 border border-red-800/40',
     };
     return styles[status as keyof typeof styles] || styles.pending;
   };
@@ -86,8 +86,8 @@ function DashboardContent() {
   return (
     <main className="min-h-screen bg-animated relative overflow-hidden">
       {/* Background orbs */}
-      <div className="absolute top-20 left-10 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse"></div>
-      <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse delay-1000"></div>
+      <div className="absolute top-20 left-10 w-96 h-96 bg-[#216869] rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+      <div className="absolute bottom-20 right-10 w-96 h-96 bg-[#49A078] rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse delay-1000"></div>
 
       {/* Navbar */}
       <nav className="glass border-b border-white/10 sticky top-0 z-50 backdrop-blur-xl">
@@ -98,7 +98,7 @@ function DashboardContent() {
             </h1>
             <div className="flex items-center gap-4">
               <div className="hidden sm:flex items-center gap-2 glass-card py-2 px-4">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white font-bold text-sm">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#216869] to-[#49A078] flex items-center justify-center text-white font-bold text-sm">
                   {session.user?.name?.charAt(0).toUpperCase()}
                 </div>
                 <span className="text-sm text-white/80">
@@ -161,7 +161,7 @@ function DashboardContent() {
         {quotes.length > 0 && (
           <div className="mb-8 fade-in fade-in-delay-1">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-to-br from-[#216869] to-[#49A078] rounded-xl flex items-center justify-center">
                 <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
@@ -221,7 +221,7 @@ function DashboardContent() {
         {/* Requests section */}
         <div className="fade-in fade-in-delay-2">
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
+            <div className="w-10 h-10 bg-gradient-to-br from-[#49A078] to-[#9CC5A1] rounded-xl flex items-center justify-center">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
               </svg>
@@ -293,7 +293,7 @@ export default function Dashboard() {
     <Suspense fallback={
       <main className="flex min-h-screen flex-col items-center justify-center bg-animated">
         <div className="glass-card animate-pulse">
-          <div className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+          <div className="w-16 h-16 border-4 border-[#49A078] border-t-transparent rounded-full animate-spin"></div>
         </div>
       </main>
     }>

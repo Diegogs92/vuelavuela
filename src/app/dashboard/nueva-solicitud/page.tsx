@@ -44,7 +44,7 @@ export default function NuevaSolicitud() {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center bg-animated">
         <div className="glass-card animate-pulse">
-          <div className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+          <div className="w-16 h-16 border-4 border-[#49A078] border-t-transparent rounded-full animate-spin"></div>
         </div>
       </main>
     );

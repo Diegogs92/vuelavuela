@@ -7,8 +7,8 @@ export default function SignIn() {
   return (
     <main className="min-h-screen bg-animated relative overflow-hidden">
       {/* Background orbs */}
-      <div className="absolute top-1/4 left-10 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
-      <div className="absolute bottom-1/4 right-10 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse delay-1000"></div>
+      <div className="absolute top-1/4 left-10 w-96 h-96 bg-[#216869] rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
+      <div className="absolute bottom-1/4 right-10 w-96 h-96 bg-[#49A078] rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse delay-1000"></div>
 
       <div className="relative z-10 flex min-h-screen flex-col items-center justify-center p-8">
         {/* Back button */}
