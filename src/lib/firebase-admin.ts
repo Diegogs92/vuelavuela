@@ -1,8 +1,8 @@
 import { initializeApp, getApps, cert, App } from 'firebase-admin/app';
 import { getFirestore, Firestore } from 'firebase-admin/firestore';
 
-let adminApp: App | null = null;
-let adminDb: Firestore | null = null;
+let cachedApp: App | null = null;
+let cachedDb: Firestore | null = null;
 
 function initializeFirebaseAdmin() {
   if (getApps().length > 0) {
@@ -30,21 +30,23 @@ function initializeFirebaseAdmin() {
 }
 
 function getAdminApp(): App {
-  if (!adminApp) {
+  if (!cachedApp) {
     const app = initializeFirebaseAdmin();
     if (!app) {
       throw new Error('Firebase Admin is not initialized. Check your environment variables.');
     }
-    adminApp = app;
+    cachedApp = app;
   }
-  return adminApp;
+  return cachedApp;
 }
 
 function getAdminDb(): Firestore {
-  if (!adminDb) {
-    adminDb = getFirestore(getAdminApp());
+  if (!cachedDb) {
+    cachedDb = getFirestore(getAdminApp());
   }
-  return adminDb;
+  return cachedDb;
 }
 
-export { getAdminApp as adminApp, getAdminDb as adminDb };
+// Export singleton instances
+export const adminApp = getAdminApp;
+export const adminDb = getAdminDb();
