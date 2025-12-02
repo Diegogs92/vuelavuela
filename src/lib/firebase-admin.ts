@@ -14,7 +14,7 @@ function initializeFirebaseAdmin() {
   const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
 
   if (!privateKey || privateKey.length < 100) {
-    console.warn('Firebase Admin credentials not found. Some features will not work.');
+    console.warn('Firebase Admin credentials not found. Initialization skipped during build.');
     return null;
   }
 
@@ -47,6 +47,17 @@ function getAdminDb(): Firestore {
   return cachedDb;
 }
 
-// Export singleton instances
-export const adminApp = getAdminApp;
-export const adminDb = getAdminDb();
+// Create a Proxy to delay initialization until actually used
+export const adminDb = new Proxy({} as Firestore, {
+  get(_target, prop) {
+    const db = getAdminDb();
+    return (db as any)[prop];
+  }
+});
+
+export const adminApp = new Proxy({} as App, {
+  get(_target, prop) {
+    const app = getAdminApp();
+    return (app as any)[prop];
+  }
+});
