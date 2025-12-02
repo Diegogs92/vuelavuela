@@ -3,6 +3,12 @@ import GoogleProvider from 'next-auth/providers/google';
 import { FirestoreAdapter } from '@auth/firebase-adapter';
 import { cert } from 'firebase-admin/app';
 
+const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || process.env.FIREBASE_PROJECT_ID || 'vuelavuela-5af97';
+const clientEmail = process.env.FIREBASE_CLIENT_EMAIL || 'firebase-adminsdk-fbsvc@vuelavuela-5af97.iam.gserviceaccount.com';
+const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
+
+const hasValidCredentials = privateKey && privateKey.length > 100;
+
 export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
@@ -10,13 +16,15 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || 'temp',
     }),
   ],
-  adapter: FirestoreAdapter({
-    credential: cert({
-      projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || process.env.FIREBASE_PROJECT_ID || 'vuelavuela-5af97',
-      clientEmail: process.env.FIREBASE_CLIENT_EMAIL || 'firebase-adminsdk-fbsvc@vuelavuela-5af97.iam.gserviceaccount.com',
-      privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n') || '',
+  ...(hasValidCredentials ? {
+    adapter: FirestoreAdapter({
+      credential: cert({
+        projectId,
+        clientEmail,
+        privateKey: privateKey!,
+      }),
     }),
-  }),
+  } : {}),
   session: {
     strategy: 'jwt',
   },
