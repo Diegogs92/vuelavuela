@@ -27,7 +27,9 @@ export async function POST(request: NextRequest) {
       updatedAt: new Date().toISOString(),
     };
 
+    console.log('Intentando guardar solicitud en Firestore...', { userId: session.user.id });
     const docRef = await adminDb.collection('travelRequests').add(travelRequest);
+    console.log('Solicitud guardada exitosamente:', docRef.id);
 
     // Intentar enviar email, pero no fallar si hay error
     try {

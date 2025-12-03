@@ -2,52 +2,53 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
 @layer base {
+  /* Airport-inspired color palette */
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
+    --background: 210 20% 98%;          /* Light sky blue-grey */
+    --foreground: 215 25% 15%;          /* Deep navy */
+    --card: 0 0% 100%;                  /* White */
+    --card-foreground: 215 25% 15%;     /* Deep navy */
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 173 39% 27%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 152 38% 50%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 152 38% 70%;
-    --accent-foreground: 0 0% 9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 173 39% 27%;
-    --radius: 0.5rem;
+    --popover-foreground: 215 25% 15%;
+    --primary: 210 100% 45%;            /* Runway blue */
+    --primary-foreground: 0 0% 100%;    /* White */
+    --secondary: 45 95% 50%;            /* Airport yellow/amber */
+    --secondary-foreground: 215 25% 15%; /* Deep navy */
+    --muted: 210 20% 95%;               /* Light grey-blue */
+    --muted-foreground: 215 10% 45%;    /* Medium grey */
+    --accent: 195 100% 40%;             /* Sky blue accent */
+    --accent-foreground: 0 0% 100%;     /* White */
+    --destructive: 0 75% 55%;           /* Red */
+    --destructive-foreground: 0 0% 100%;
+    --border: 210 15% 88%;              /* Light border */
+    --input: 210 15% 88%;
+    --ring: 210 100% 45%;               /* Runway blue */
+    --radius: 0.75rem;
   }
 
   .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 7%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 173 39% 27%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 152 38% 50%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 152 38% 40%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 152 38% 50%;
+    --background: 220 25% 8%;           /* Dark navy background */
+    --foreground: 210 20% 95%;          /* Light text */
+    --card: 220 20% 12%;                /* Dark card */
+    --card-foreground: 210 20% 95%;
+    --popover: 220 25% 8%;
+    --popover-foreground: 210 20% 95%;
+    --primary: 210 100% 55%;            /* Brighter runway blue */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 45 95% 55%;            /* Brighter yellow */
+    --secondary-foreground: 220 25% 8%;
+    --muted: 220 20% 18%;               /* Dark muted */
+    --muted-foreground: 210 15% 60%;
+    --accent: 195 100% 50%;             /* Bright sky blue */
+    --accent-foreground: 220 25% 8%;
+    --destructive: 0 75% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 20% 20%;              /* Dark border */
+    --input: 220 20% 20%;
+    --ring: 210 100% 55%;
   }
 }
 
@@ -81,18 +82,44 @@ html {
 .fade-in-delay-3 { animation-delay: 0.3s; opacity: 0; }
 .fade-in-delay-4 { animation-delay: 0.4s; opacity: 0; }
 
-/* Plane takeoff animation */
-@keyframes planeTakeoff {
-  0%, 100% {
-    transform: translateY(0) translateX(0) rotate(-5deg);
+/* Plane taxiing and takeoff animation */
+@keyframes planeTaxiingTakeoff {
+  0% {
+    transform: translateX(0) translateY(0) rotate(0deg);
+  }
+  30% {
+    transform: translateX(60px) translateY(0) rotate(0deg);
   }
   50% {
-    transform: translateY(-8px) translateX(4px) rotate(-10deg);
+    transform: translateX(100px) translateY(-5px) rotate(-5deg);
+  }
+  70% {
+    transform: translateX(140px) translateY(-20px) rotate(-15deg);
+  }
+  100% {
+    transform: translateX(200px) translateY(-60px) rotate(-20deg);
   }
 }
 
-.animate-plane-takeoff {
-  animation: planeTakeoff 1.5s ease-in-out infinite;
+.animate-plane-taxiing-takeoff {
+  animation: planeTaxiingTakeoff 3s ease-in-out infinite;
+}
+
+/* Runway animation - simulates movement */
+@keyframes runway {
+  0% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0.3;
+  }
+}
+
+.animate-runway {
+  animation: runway 1s ease-in-out infinite;
 }
 
 /* Cloud animations */
