@@ -8,14 +8,20 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: NextRequest) {
   try {
+    console.log('=== INICIO POST /api/travel-requests ===');
     const session = await getServerSession(authOptions);
 
     if (!session || !session.user) {
+      console.error('No hay sesión de usuario');
       return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
     }
 
+    console.log('Sesión válida:', { userId: session.user.id, email: session.user.email });
+
     const body = await request.json();
     const { preferences, userEmail, userName } = body;
+
+    console.log('Datos recibidos:', { userEmail, userName, preferencesKeys: Object.keys(preferences) });
 
     const travelRequest = {
       userId: session.user.id,
@@ -27,9 +33,14 @@ export async function POST(request: NextRequest) {
       updatedAt: new Date().toISOString(),
     };
 
-    console.log('Intentando guardar solicitud en Firestore...', { userId: session.user.id });
+    console.log('Verificando variables de entorno Firebase...');
+    console.log('FIREBASE_PROJECT_ID:', process.env.FIREBASE_PROJECT_ID ? 'SET' : 'NOT SET');
+    console.log('FIREBASE_CLIENT_EMAIL:', process.env.FIREBASE_CLIENT_EMAIL ? 'SET' : 'NOT SET');
+    console.log('FIREBASE_PRIVATE_KEY:', process.env.FIREBASE_PRIVATE_KEY ? 'SET (length: ' + process.env.FIREBASE_PRIVATE_KEY.length + ')' : 'NOT SET');
+
+    console.log('Intentando guardar en Firestore...');
     const docRef = await adminDb.collection('travelRequests').add(travelRequest);
-    console.log('Solicitud guardada exitosamente:', docRef.id);
+    console.log('✓ Solicitud guardada exitosamente:', docRef.id);
 
     // Intentar enviar email, pero no fallar si hay error
     try {
