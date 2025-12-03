@@ -81,6 +81,51 @@ html {
 .fade-in-delay-3 { animation-delay: 0.3s; opacity: 0; }
 .fade-in-delay-4 { animation-delay: 0.4s; opacity: 0; }
 
+/* Plane takeoff animation */
+@keyframes planeTakeoff {
+  0%, 100% {
+    transform: translateY(0) translateX(0) rotate(-5deg);
+  }
+  50% {
+    transform: translateY(-8px) translateX(4px) rotate(-10deg);
+  }
+}
+
+.animate-plane-takeoff {
+  animation: planeTakeoff 1.5s ease-in-out infinite;
+}
+
+/* Cloud animations */
+@keyframes cloud1 {
+  0%, 100% {
+    transform: translateX(0);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateX(40px);
+    opacity: 0.6;
+  }
+}
+
+@keyframes cloud2 {
+  0%, 100% {
+    transform: translateX(0);
+    opacity: 0.2;
+  }
+  50% {
+    transform: translateX(-40px);
+    opacity: 0.5;
+  }
+}
+
+.animate-cloud-1 {
+  animation: cloud1 3s ease-in-out infinite;
+}
+
+.animate-cloud-2 {
+  animation: cloud2 4s ease-in-out infinite;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

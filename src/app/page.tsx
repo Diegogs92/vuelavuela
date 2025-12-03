@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import Link from 'next/link';
+import PlaneLoader from '@/components/PlaneLoader';
 
 export default function Home() {
   const { data: session, status } = useSession();
@@ -18,9 +19,7 @@ export default function Home() {
   if (status === 'loading') {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center bg-background">
-        <div className="animate-pulse">
-          <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-        </div>
+        <PlaneLoader size="large" />
       </main>
     );
   }

@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState, Suspense } from 'react';
 import Link from 'next/link';
 import ThemeSwitcher from '@/components/ThemeSwitcher';
+import PlaneLoader from '@/components/PlaneLoader';
 
 function DashboardContent() {
   const { data: session, status } = useSession();
@@ -53,9 +54,7 @@ function DashboardContent() {
   if (status === 'loading' || loading) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center bg-background">
-        <div className="animate-pulse">
-          <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-        </div>
+        <PlaneLoader size="large" />
       </main>
     );
   }
@@ -290,9 +289,7 @@ export default function Dashboard() {
   return (
     <Suspense fallback={
       <main className="flex min-h-screen flex-col items-center justify-center bg-background">
-        <div className="animate-pulse">
-          <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-        </div>
+        <PlaneLoader size="large" />
       </main>
     }>
       <DashboardContent />

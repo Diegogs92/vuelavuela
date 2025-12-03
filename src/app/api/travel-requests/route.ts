@@ -29,7 +29,12 @@ export async function POST(request: NextRequest) {
 
     const docRef = await adminDb.collection('travelRequests').add(travelRequest);
 
-    await sendEmailToAgent(docRef.id, travelRequest);
+    // Intentar enviar email, pero no fallar si hay error
+    try {
+      await sendEmailToAgent(docRef.id, travelRequest);
+    } catch (emailError) {
+      console.error('Error al enviar email (continuando):', emailError);
+    }
 
     return NextResponse.json(
       { message: 'Solicitud creada exitosamente', id: docRef.id },

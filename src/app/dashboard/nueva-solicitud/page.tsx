@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { TravelPreferences } from '@/types';
+import PlaneLoader from '@/components/PlaneLoader';
 
 export default function NuevaSolicitud() {
   const { data: session, status } = useSession();
@@ -43,9 +44,7 @@ export default function NuevaSolicitud() {
   if (status === 'loading') {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center bg-background">
-        <div className="animate-pulse">
-          <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-        </div>
+        <PlaneLoader size="large" />
       </main>
     );
   }
