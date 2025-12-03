@@ -15,6 +15,12 @@ function DashboardContent() {
   const [quotes, setQuotes] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -65,218 +71,251 @@ function DashboardContent() {
 
   const getStatusBadge = (status: string) => {
     const styles = {
-      pending: 'bg-muted text-muted-foreground border border-border',
-      quoted: 'bg-primary/10 text-primary border border-primary/20',
-      accepted: 'bg-secondary/10 text-secondary border border-secondary/20',
-      rejected: 'bg-destructive/10 text-destructive border border-destructive/20',
+      pending: 'bg-secondary/20 text-secondary-foreground border-2 border-secondary',
+      quoted: 'bg-primary/20 text-primary border-2 border-primary',
+      accepted: 'bg-accent/20 text-accent-foreground border-2 border-accent',
+      rejected: 'bg-destructive/20 text-destructive-foreground border-2 border-destructive',
     };
     return styles[status as keyof typeof styles] || styles.pending;
   };
 
   const getStatusText = (status: string) => {
     const texts = {
-      pending: 'Pendiente',
-      quoted: 'Cotizada',
-      accepted: 'Aceptada',
-      rejected: 'Rechazada',
+      pending: 'PROGRAMADO',
+      quoted: 'EN PUERTA',
+      accepted: 'EMBARCANDO',
+      rejected: 'CANCELADO',
     };
-    return texts[status as keyof typeof texts] || status;
+    return texts[status as keyof typeof texts] || status.toUpperCase();
   };
 
   return (
     <main className="min-h-screen bg-background">
-      {/* Navbar */}
-      <nav className="bg-card border-b border-border sticky top-0 z-50 backdrop-blur-xl">
+      {/* Airport Control Tower Header */}
+      <nav className="bg-card border-b-4 border-primary shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <h1 className="text-2xl font-black text-foreground">
-              Vuela Vuela
-            </h1>
+          <div className="flex justify-between items-center h-20">
+            {/* Logo & Terminal Info */}
             <div className="flex items-center gap-4">
+              <div className="w-14 h-14 bg-primary rounded-xl flex items-center justify-center">
+                <svg className="w-9 h-9 text-primary-foreground" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/>
+                </svg>
+              </div>
+              <div>
+                <div className="text-2xl font-black text-foreground tracking-tight">VUELA VUELA</div>
+                <div className="font-mono text-xs text-muted-foreground">
+                  TERMINAL {session.user?.name?.charAt(0).toUpperCase()} | {currentTime.toLocaleTimeString('es-ES')}
+                </div>
+              </div>
+            </div>
+
+            {/* Control Panel */}
+            <div className="flex items-center gap-3">
               <ThemeSwitcher />
-              <div className="hidden sm:flex items-center gap-2 bg-muted rounded-lg py-2 px-4">
-                <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold text-sm">
+              <div className="hidden md:flex items-center gap-2 bg-muted rounded-xl px-4 py-2 border-2 border-border">
+                <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-black">
                   {session.user?.name?.charAt(0).toUpperCase()}
                 </div>
-                <span className="text-sm text-foreground">
-                  {session.user?.name}
-                </span>
+                <div>
+                  <div className="text-sm font-bold text-foreground">{session.user?.name}</div>
+                  <div className="text-xs text-muted-foreground font-mono">PASAJERO VIP</div>
+                </div>
               </div>
               <button
                 onClick={() => signOut({ callbackUrl: '/' })}
-                className="bg-card border border-border rounded-lg py-2 px-4 text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                className="bg-background border-2 border-border hover:border-destructive hover:text-destructive rounded-xl px-4 py-2 text-sm font-bold transition-all"
               >
-                Cerrar sesión
+                SALIR
               </button>
             </div>
           </div>
         </div>
       </nav>
 
-      <div className="max-w-6xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-        {/* Success notification */}
+      <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        {/* Success Alert - Airport Style */}
         {showSuccess && (
-          <div className="mb-6 bg-card border border-primary rounded-lg p-4 shadow-md fade-in">
-            <div className="flex items-start gap-3">
-              <svg className="w-6 h-6 text-primary flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+          <div className="mb-6 bg-accent border-4 border-accent rounded-xl p-6 shadow-xl animate-pulse">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-accent-foreground rounded-full flex items-center justify-center">
+                <svg className="w-7 h-7 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
               <div>
-                <p className="font-bold text-foreground">Solicitud enviada exitosamente</p>
-                <p className="text-sm text-muted-foreground">Te enviaremos una propuesta pronto a tu correo electrónico.</p>
+                <div className="font-mono text-sm text-accent-foreground/80 mb-1">CONFIRMACIÓN DE VUELO</div>
+                <div className="text-2xl font-black text-accent-foreground">SOLICITUD REGISTRADA</div>
+                <div className="text-sm text-accent-foreground/90 mt-1">Tu solicitud ha sido procesada. Recibirás una propuesta pronto.</div>
               </div>
             </div>
           </div>
         )}
 
-        {/* Welcome card */}
-        <div className="bg-card border border-border rounded-xl p-8 shadow-lg mb-8 fade-in">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-            <div>
-              <h2 className="text-4xl font-black text-foreground mb-3">
-                Hola, {session.user?.name?.split(' ')[0]}!
-              </h2>
-              <p className="text-muted-foreground text-lg max-w-xl">
-                ¿Listo para tu próxima aventura? Cuéntanos tus preferencias y te prepararemos una propuesta personalizada.
-              </p>
+        {/* Flight Information Display - Main Board */}
+        <div className="bg-card border-4 border-border rounded-2xl overflow-hidden shadow-2xl mb-8">
+          {/* Board Header */}
+          <div className="bg-primary text-primary-foreground p-6 flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              </svg>
+              <div>
+                <div className="font-mono text-sm opacity-90">PANEL DE CONTROL</div>
+                <div className="text-2xl font-black">INFORMACIÓN DE VUELOS</div>
+              </div>
             </div>
             <Link
               href="/dashboard/nueva-solicitud"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition-all whitespace-nowrap group"
+              className="bg-secondary hover:bg-secondary/90 text-secondary-foreground font-black px-8 py-4 rounded-xl transition-all shadow-lg hover:shadow-xl flex items-center gap-2 group"
             >
-              <span className="flex items-center gap-2">
-                Nueva solicitud
-                <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                </svg>
-              </span>
+              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/>
+              </svg>
+              NUEVO VUELO
+              <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
             </Link>
+          </div>
+
+          <div className="p-6 sm:p-8">
+            <div className="font-mono text-xs text-muted-foreground mb-4 flex items-center gap-2">
+              <div className="w-3 h-3 rounded-full bg-secondary animate-pulse"></div>
+              BIENVENIDO, {session.user?.name?.toUpperCase()}
+            </div>
+            <p className="text-xl text-muted-foreground mb-8">
+              Desde aquí puedes gestionar todas tus solicitudes de viaje y revisar las ofertas que hemos preparado para ti.
+            </p>
+
+            {/* Stats Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+              <div className="bg-primary/10 border-2 border-primary rounded-xl p-6">
+                <div className="font-mono text-xs text-primary mb-2">TOTAL SOLICITUDES</div>
+                <div className="text-4xl font-black text-primary">{requests.length}</div>
+              </div>
+              <div className="bg-secondary/10 border-2 border-secondary rounded-xl p-6">
+                <div className="font-mono text-xs text-secondary-foreground mb-2">OFERTAS RECIBIDAS</div>
+                <div className="text-4xl font-black text-secondary-foreground">{quotes.length}</div>
+              </div>
+              <div className="bg-accent/10 border-2 border-accent rounded-xl p-6">
+                <div className="font-mono text-xs text-accent-foreground mb-2">ESTADO</div>
+                <div className="text-2xl font-black text-accent-foreground flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full bg-accent animate-pulse"></div>
+                  ACTIVO
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Quotes section */}
+        {/* Departure Board - Quotes */}
         {quotes.length > 0 && (
-          <div className="mb-8 fade-in">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
-                <svg className="w-6 h-6 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+          <div className="mb-8">
+            <div className="bg-card border-2 border-border rounded-xl overflow-hidden shadow-lg">
+              <div className="bg-gradient-to-r from-primary to-accent p-4">
+                <div className="font-mono text-xs text-white/80 mb-1">SALIDAS / DEPARTURES</div>
+                <div className="text-2xl font-black text-white">OFERTAS DISPONIBLES</div>
               </div>
-              <h3 className="text-2xl font-bold text-foreground">
-                Ofertas recibidas
-              </h3>
-              <span className="bg-muted rounded-lg px-3 py-1 text-sm text-muted-foreground">
-                {quotes.length}
-              </span>
-            </div>
-            <div className="grid gap-4">
-              {quotes.map((quote, index) => (
-                <div
-                  key={quote.id}
-                  className="bg-card border border-border rounded-xl p-6 shadow-md hover:shadow-lg hover:border-primary/50 transition-all fade-in"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                >
-                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <div className="flex-1">
-                      <div className="flex items-start justify-between gap-4 mb-3">
-                        <h4 className="text-xl font-bold text-foreground">
-                          {quote.title}
-                        </h4>
-                        <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusBadge(quote.status)}`}>
-                          {getStatusText(quote.status)}
-                        </span>
+              <div className="p-6 space-y-4">
+                {quotes.map((quote, index) => (
+                  <div
+                    key={quote.id}
+                    className="bg-background border-2 border-border hover:border-primary rounded-xl p-6 transition-all group"
+                  >
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3 mb-2">
+                          <div className="font-mono text-xs text-muted-foreground">VUELO VV-{String(index + 1).padStart(3, '0')}</div>
+                          <span className={`px-3 py-1 rounded-lg font-mono text-xs font-bold ${getStatusBadge(quote.status)}`}>
+                            {getStatusText(quote.status)}
+                          </span>
+                        </div>
+                        <h4 className="text-2xl font-black text-foreground mb-2">{quote.title}</h4>
+                        <p className="text-muted-foreground mb-3">{quote.description}</p>
+                        <div className="flex items-baseline gap-2">
+                          <div className="text-4xl font-black text-primary">{quote.price}</div>
+                          <div className="text-muted-foreground font-mono">{quote.currency}</div>
+                        </div>
                       </div>
-                      <p className="text-muted-foreground mb-4">
-                        {quote.description}
-                      </p>
-                      <div className="flex items-baseline gap-2">
-                        <span className="text-3xl font-black text-primary">
-                          {quote.price}
-                        </span>
-                        <span className="text-muted-foreground">{quote.currency}</span>
-                      </div>
+                      <Link
+                        href={`/dashboard/ofertas/${quote.id}`}
+                        className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-8 py-4 rounded-xl transition-all shadow-md hover:shadow-lg whitespace-nowrap group-hover:scale-105"
+                      >
+                        VER OFERTA →
+                      </Link>
                     </div>
-                    <Link
-                      href={`/dashboard/ofertas/${quote.id}`}
-                      className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition-all whitespace-nowrap group"
-                    >
-                      <span className="flex items-center gap-2">
-                        Ver detalles
-                        <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                        </svg>
-                      </span>
-                    </Link>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         )}
 
-        {/* Requests section */}
-        <div className="fade-in">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 bg-secondary rounded-xl flex items-center justify-center">
-              <svg className="w-6 h-6 text-secondary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-              </svg>
-            </div>
-            <h3 className="text-2xl font-bold text-foreground">
-              Mis solicitudes
-            </h3>
-            <span className="bg-muted rounded-lg px-3 py-1 text-sm text-muted-foreground">
-              {requests.length}
-            </span>
+        {/* Flight Schedule - Requests */}
+        <div className="bg-card border-2 border-border rounded-xl overflow-hidden shadow-lg">
+          <div className="bg-gradient-to-r from-secondary to-primary p-4">
+            <div className="font-mono text-xs text-white/80 mb-1">ITINERARIO / SCHEDULE</div>
+            <div className="text-2xl font-black text-white">MIS SOLICITUDES DE VIAJE</div>
           </div>
+
           {requests.length === 0 ? (
-            <div className="bg-card border border-border rounded-xl p-12 text-center shadow-md">
-              <svg className="w-16 h-16 text-muted-foreground/50 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-              <p className="text-muted-foreground text-lg">
-                Aún no tienes solicitudes de viaje
-              </p>
-              <p className="text-muted-foreground/70 text-sm mt-2">
-                ¡Crea tu primera solicitud para comenzar!
-              </p>
+            <div className="p-16 text-center">
+              <div className="inline-block mb-6 p-6 bg-muted rounded-2xl">
+                <svg className="w-20 h-20 text-muted-foreground/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+              </div>
+              <div className="text-2xl font-black text-foreground mb-2">NO HAY VUELOS PROGRAMADOS</div>
+              <p className="text-muted-foreground mb-8">Aún no has realizado ninguna solicitud de viaje.</p>
+              <Link
+                href="/dashboard/nueva-solicitud"
+                className="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-8 py-4 rounded-xl transition-all shadow-lg"
+              >
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/>
+                </svg>
+                PROGRAMAR PRIMER VUELO
+              </Link>
             </div>
           ) : (
-            <div className="grid gap-4">
-              {requests.map((request, index) => (
-                <div
-                  key={request.id}
-                  className="bg-card border border-border rounded-xl p-6 shadow-md hover:shadow-lg hover:border-secondary/50 transition-all fade-in"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                >
-                  <div className="flex justify-between items-start">
-                    <div className="flex-1">
-                      <p className="text-sm text-muted-foreground mb-2">
-                        {new Date(request.createdAt).toLocaleDateString('es-ES', {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric',
-                        })}
-                      </p>
-                      <p className="text-foreground font-semibold mb-1">
-                        Destinos: <span className="text-primary">{request.preferences.destinations.join(', ')}</span>
-                      </p>
-                      <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                        <span className="flex items-center gap-1">
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                          </svg>
-                          {request.preferences.daysAvailable} días
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-muted border-b-2 border-border">
+                  <tr>
+                    <th className="px-6 py-4 text-left font-mono text-xs text-muted-foreground">VUELO</th>
+                    <th className="px-6 py-4 text-left font-mono text-xs text-muted-foreground">DESTINO</th>
+                    <th className="px-6 py-4 text-left font-mono text-xs text-muted-foreground">FECHA</th>
+                    <th className="px-6 py-4 text-left font-mono text-xs text-muted-foreground">DÍAS</th>
+                    <th className="px-6 py-4 text-left font-mono text-xs text-muted-foreground">ESTADO</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {requests.map((request, index) => (
+                    <tr key={request.id} className="border-b border-border hover:bg-muted/50 transition-colors">
+                      <td className="px-6 py-4">
+                        <div className="font-mono font-bold text-foreground">VV-{String(index + 1).padStart(3, '0')}</div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="text-sm font-bold text-foreground">{request.preferences.destinations.join(', ')}</div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="text-sm text-muted-foreground font-mono">
+                          {new Date(request.createdAt).toLocaleDateString('es-ES')}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="text-sm font-bold text-foreground">{request.preferences.daysAvailable}d</div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className={`px-3 py-1 rounded-lg font-mono text-xs font-bold ${getStatusBadge(request.status)}`}>
+                          {getStatusText(request.status)}
                         </span>
-                      </div>
-                    </div>
-                    <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusBadge(request.status)}`}>
-                      {getStatusText(request.status)}
-                    </span>
-                  </div>
-                </div>
-              ))}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           )}
         </div>
